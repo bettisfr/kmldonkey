@@ -1,10 +1,10 @@
-<img src="kmldonkey/images/icons/hi128-app-kmldonkey.png" alt="KMLDonkey icon" width="96" height="96">
-
 # KMLDonkey — Qt6 / KDE Frameworks 6 port
 
 A community port of the classic **KMLDonkey** frontend to **Qt6 and KDE
 Frameworks 6**, intended for use with Plasma 6 on Linux.
 This is an independent fork, not an official KDE release.
+
+<img src="kmldonkey/images/icons/hi128-app-kmldonkey.png" alt="KMLDonkey icon" width="96" height="96">
 
 KMLDonkey connects to a local or remote MLDonkey core to manage searches,
 downloads, servers, shared files, friends, transfer statistics, and its console.
