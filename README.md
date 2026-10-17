@@ -36,7 +36,7 @@ the View menu also offers a sidebar and subsequent starts remember the choice.
 
 The source baseline is the official KDE SVN tree at revision **1531665**,
 last changed on **29 December 2018**. The application declares version **2.1.5**;
-this fork's Qt6 package is version **2.1.5+qt6.11**.
+this fork's Qt6 package is version **2.1.5+qt6.12**.
 
 ## Download folders
 
@@ -98,7 +98,7 @@ Install the dependencies listed in [BUILDING.md](BUILDING.md), then run:
 
 ```sh
 ./scripts/build-deb.sh
-sudo apt install ./build-qt6/kmldonkey_2.1.5+qt6.11_amd64.deb
+sudo apt install ./build-qt6/kmldonkey_2.1.5+qt6.12_amd64.deb
 ```
 
 The filename above is for amd64; use the generated filename on other architectures.
@@ -131,6 +131,9 @@ Qt / KDE Frameworks versions, MLDonkey core version, steps to reproduce the
 problem, and relevant build or terminal output.
 
 ## Credits and license
+
+**Francesco Betti Sorbelli** — Qt6 / KDE Frameworks 6 port:
+[bettisfr on GitHub](https://github.com/bettisfr).
 
 This fork builds on the original KMLDonkey authors and KDE contributors.
 Existing copyright and license notices are preserved in the sources;

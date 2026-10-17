@@ -1,7 +1,7 @@
 # Runtime dependencies are derived by dpkg-shlibdeps on the build host.
 set(CPACK_GENERATOR DEB)
 set(CPACK_PACKAGE_NAME kmldonkey)
-set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}+qt6.11")
+set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}+qt6.12")
 set(CPACK_PACKAGE_CONTACT "KMLDonkey fork maintainers")
 set(CPACK_PACKAGE_HOMEPAGE_URL "https://github.com/bettisfr/kmldonkey")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "MLDonkey frontend for KDE Plasma 6")
