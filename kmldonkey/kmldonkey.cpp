@@ -139,6 +139,7 @@ KMLDonkey::KMLDonkey() : KXmlGuiWindow(){
     setAcceptDrops(true);
     setCentralWidget(buildInterface());
     setupActions();
+    setStateConfigGroup(QStringLiteral("MainWindow"));
     setAutoSaveSettings();
     restoreState( KSharedConfig::openConfig() );
 
@@ -621,6 +622,7 @@ void KMLDonkey::saveState(KSharedConfigPtr conf)
 {
     KConfigGroup windowGroup = conf->group("MainWindow");
     saveMainWindowSettings(windowGroup);
+    KSharedConfig::openStateConfig()->sync();
     KConfigGroup stategroup = conf->group("State");
     stategroup.writeEntry("FirstRun", false);
 

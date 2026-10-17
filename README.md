@@ -27,7 +27,7 @@ Breeze can be used for consistency with Plasma.
 
 The source baseline is the official KDE SVN tree at revision **1531665**,
 last changed on **29 December 2018**. The application declares version **2.1.5**;
-this fork's Qt6 package is version **2.1.5+qt6.8**.
+this fork's Qt6 package is version **2.1.5+qt6.9**.
 
 ## Download folders
 
@@ -86,7 +86,7 @@ Install the dependencies listed in [BUILDING.md](BUILDING.md), then run:
 
 ```sh
 ./scripts/build-deb.sh
-sudo apt install ./build-qt6/kmldonkey_2.1.5+qt6.8_amd64.deb
+sudo apt install ./build-qt6/kmldonkey_2.1.5+qt6.9_amd64.deb
 ```
 
 The filename above is for amd64; use the generated filename on other architectures.

@@ -18,7 +18,7 @@ expressions and protocol text codecs. Qt4, Qt5, and KDE4 are not used.
 
 ```sh
 ./scripts/build-deb.sh
-sudo apt install ./build-qt6/kmldonkey_2.1.5+qt6.8_amd64.deb
+sudo apt install ./build-qt6/kmldonkey_2.1.5+qt6.9_amd64.deb
 ```
 
 The script configures a Release build with `/usr` as the install prefix, builds
