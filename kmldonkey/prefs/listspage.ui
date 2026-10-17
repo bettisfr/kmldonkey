@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>KMLDonkeyPrefListsPage</class>
+ <widget class="QWidget" name="KMLDonkeyPrefListsPage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>550</width>
+    <height>512</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>List Configuration</string>
+  </property>
+  <layout class="QVBoxLayout">
+   <item>
+    <widget class="QGroupBox" name="groupBox1">
+     <property name="title">
+      <string>Server List</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QCheckBox" name="hideDisconnectedServersCheckbox">
+        <property name="toolTip">
+         <string>If you turn this on, disconnected servers will be hidden in the server list.</string>
+        </property>
+        <property name="text">
+         <string>Hide disconnected servers</string>
+        </property>
+        <property name="shortcut">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="hideBlacklistedServersCheckbox">
+        <property name="toolTip">
+         <string>If you turn this on, blacklisted servers will be hidden in the server list.</string>
+        </property>
+        <property name="text">
+         <string>Hide blacklisted servers</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout">
+        <item>
+         <widget class="QCheckBox" name="autoServerResortCheckbox">
+          <property name="text">
+           <string>Automatically re-sort server list:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="serverResortEntry">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="toolTip">
+           <string/>
+          </property>
+          <property name="value">
+           <number>10</number>
+          </property>
+          <property name="suffix">
+           <string> seconds</string>
+          </property>
+          <property name="minValue" stdset="0">
+           <number>1</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox4">
+     <property name="title">
+      <string>Download List</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QCheckBox" name="progressbarCheckBox">
+        <property name="text">
+         <string>Display progress bar in percentage column</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="hidePausedCheckbox">
+        <property name="toolTip">
+         <string>If you turn this on, paused downloads will be hidden in the download list.</string>
+        </property>
+        <property name="text">
+         <string>Hide &amp;paused downloads</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="hideUnpausedCheckbox">
+        <property name="toolTip">
+         <string>If you turn this on, only paused downloads will be shown in the download list - unless you also turn on &quot;Hide paused downloads,&quot; which will give you an empty list.</string>
+        </property>
+        <property name="text">
+         <string>Show only paused downloads</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="SortDownloadingFirstCheckBox">
+        <property name="text">
+         <string>Sort downloading files first</string>
+        </property>
+        <property name="shortcut">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="SortPausedLastCheckBox">
+        <property name="text">
+         <string>Sort paused files last</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout">
+        <item>
+         <widget class="QCheckBox" name="autoDownloadResortCheckbox">
+          <property name="text">
+           <string>Automatically re-sort download list:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="downloadResortEntry">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="toolTip">
+           <string/>
+          </property>
+          <property name="value">
+           <number>10</number>
+          </property>
+          <property name="suffix">
+           <string> seconds</string>
+          </property>
+          <property name="minValue" stdset="0">
+           <number>1</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox2">
+     <property name="title">
+      <string>Upload Lists</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <layout class="QHBoxLayout">
+        <item>
+         <widget class="QCheckBox" name="autoUpdateCheckbox">
+          <property name="toolTip">
+           <string>The lists on the upload page can be updated manually (to save bandwidth) or automatically.</string>
+          </property>
+          <property name="text">
+           <string>Automatically &amp;update upload lists:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="updateFrequencyEntry">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="toolTip">
+           <string>How often the upload lists should be updated.</string>
+          </property>
+          <property name="value">
+           <number>10</number>
+          </property>
+          <property name="suffix">
+           <string> seconds</string>
+          </property>
+          <property name="minValue" stdset="0">
+           <number>2</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Expanding</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>220</width>
+       <height>90</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>QSpinBox</class>
+   <extends>QWidget</extends>
+   <header>QSpinBox</header>
+  </customwidget>
+ </customwidgets>
+ <includes>
+  <include location="local">QSpinBox</include>
+  <include location="local">QSpinBox</include>
+  <include location="local">QSpinBox</include>
+  <include location="local">QSpinBox</include>
+  <include location="local">QSpinBox</include>
+  <include location="local">QSpinBox</include>
+ </includes>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>autoUpdateCheckbox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>updateFrequencyEntry</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>autoDownloadResortCheckbox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>downloadResortEntry</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>autoServerResortCheckbox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>serverResortEntry</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

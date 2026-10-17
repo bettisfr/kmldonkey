@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>KMLDonkeyPrefGeneralPage</class>
+ <widget class="QWidget" name="KMLDonkeyPrefGeneralPage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>582</width>
+    <height>481</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>General Preferences</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout_5">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <widget class="QGroupBox" name="groupBox1">
+       <property name="title">
+        <string>Interface Settings</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <widget class="QCheckBox" name="showToolbarCheckbox">
+          <property name="text">
+           <string>Show the &amp;toolbar</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="showStatusbarCheckbox">
+          <property name="text">
+           <string>Show the &amp;status bar</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="statusbarLabelsCheckbox">
+          <property name="text">
+           <string>Show &amp;labels in the status bar</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="showTrayiconCheckBox">
+          <property name="text">
+           <string>Show tray icon</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="showTrayOnCloseCheckBox">
+          <property name="text">
+           <string>Minimize to tray icon on close</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="persistentReconnectCheckbox">
+          <property name="toolTip">
+           <string>If connection to the core fails or is lost, should KMLDonkey keep trying to reestablish contact until it succeeds?</string>
+          </property>
+          <property name="text">
+           <string>Always stay &amp;connected</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Page View Mode:</string>
+            </property>
+            <property name="buddy">
+             <cstring>pageViewModeComboBox</cstring>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="pageViewModeComboBox">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="currentIndex">
+             <number>2</number>
+            </property>
+            <item>
+             <property name="text">
+              <string>List</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Tree</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Tabbed</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+       <zorder></zorder>
+       <zorder>showToolbarCheckbox</zorder>
+       <zorder>showStatusbarCheckbox</zorder>
+       <zorder>statusbarLabelsCheckbox</zorder>
+       <zorder>showTrayiconCheckBox</zorder>
+       <zorder>showTrayOnCloseCheckBox</zorder>
+       <zorder>persistentReconnectCheckbox</zorder>
+       <zorder></zorder>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox2">
+       <property name="title">
+        <string>Advanced Settings</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QLabel" name="encodingLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Text &amp;encoding:</string>
+            </property>
+            <property name="wordWrap">
+             <bool>false</bool>
+            </property>
+            <property name="buddy">
+             <cstring>encodingSelector</cstring>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="KComboBox" name="encodingSelector">
+            <property name="toolTip">
+             <string>The character set to use to decode the strings sent by the core.</string>
+            </property>
+            <property name="whatsThis">
+             <string>&lt;p&gt;Although MLDonkey does not understand about character encodings, you may well encounter text on the Donkey network that has been encoded in various national character sets. While you should, in general, use the ISO 8859-1 encoding - the de-facto network standard - you can choose a different character encoding here if you expect most of the text you encounter to be encoded in a certain national character set.&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; Changing this causes KMLDonkey to reconnect to the core. Changing it to something incompatible with the ISO 8859-1 character set &lt;em&gt;may&lt;/em&gt; cause unpredictable behavior.&lt;/p&gt;
+</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="enableStatsCheckbox">
+          <property name="toolTip">
+           <string>Enable the statistics page</string>
+          </property>
+          <property name="text">
+           <string>Enable st&amp;atistics</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="advancedConfigCheckbox">
+          <property name="toolTip">
+           <string>Enable the advanced MLDonkey configuration dialog that lets you configure more MLDonkey options.</string>
+          </property>
+          <property name="text">
+           <string>Enable &amp;advanced configuration options</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>572</width>
+         <height>51</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>pageViewModeComboBox</tabstop>
+  <tabstop>encodingSelector</tabstop>
+ </tabstops>
+ <includes>
+  <include location="local">kcombobox.h</include>
+ </includes>
+ <resources/>
+ <connections/>
+</ui>

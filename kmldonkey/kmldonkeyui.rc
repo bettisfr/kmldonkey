@@ -1,0 +1,243 @@
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
+<kpartgui name="kmldonkey" version="11">
+
+<MenuBar>
+  <Menu name="file"><text>&amp;File</text>
+    <Action name="configure_connection" />
+    <Action name="connect_core" />
+    <Action name="disconnect_core" />
+    <Action name="toggle_bandwidth" />
+    <Action name="kill_core" />
+    <Separator />
+    <Action name="submit_url" />
+    <Action name="submit_collection" />
+    <Action name="submit_torrent" />
+    <Separator />
+    <Action name="quit" />
+  </Menu>
+
+  <Menu name="edit"><text>&amp;Edit</text>
+    <Action name="copy_url" />
+    <Action name="copy_html" />
+    <Action name="copy_hash" />
+  </Menu>
+
+  <Menu name="servers"><text>Se&amp;rvers</text>
+    <Action name="connect_server" />
+    <Action name="connect_more_servers" />
+    <Action name="disconnect_server" />
+    <Separator />
+    <Action name="add_server" />
+    <Action name="remove_server" />
+    <Action name="remove_old_servers" />
+    <Action name="blacklist_server" />
+    <Action name="rename_server" />
+    <Action name="toggle_server_preferred" />
+    <Separator />
+    <Action name="hide_disconnected_servers" />
+    <Action name="hide_blacklisted_servers" />
+  </Menu>
+
+  <Menu name="downloads"><text>&amp;Downloads</text>
+    <Action name="search_download" />
+    <Action name="search_force_download" />
+    <Action name="search_download_as" />
+    <Separator />
+    <Action name="pause_selected" />
+    <Action name="resume_selected" />
+    <Action name="cancel_selected" />
+    <Action name="retry_selected" />
+    <Separator />
+    <Action name="rename_inplace" />
+    <Action name="rename_selected" />
+    <Separator />
+    <Action name="priority_menu" />
+    <Separator />
+    <Action name="verify_selected" />
+    <Action name="get_format_selected" />
+    <Separator />
+    <Action name="preview_selected" />
+    <Action name="file_information" />
+    <Separator />
+    <Action name="hide_paused_downloads" />
+    <Action name="hide_unpaused_downloads" />
+    <Action name="sort_downloading_first" />
+    <Action name="sort_paused_last" />
+    <Separator />
+    <Action name="commit_selected" />
+    <Action name="commit_as_selected" />
+  </Menu>
+
+  <Menu name="uploads"><text>Sh&amp;ares</text>
+    <Action name="upload_refresh" />
+    <Action name="uploaders_refresh" />
+    <Separator />
+    <Action name="shared_dirs" />
+  </Menu>
+
+  <Menu name="friends"><text>Fr&amp;iends</text>
+    <Action name="connect_friend" />
+    <Action name="open_friend_chat" />
+    <Separator />
+    <Action name="add_friend" />
+    <Action name="remove_friend" />
+    <Separator />
+    <Action name="remove_all_friends" />
+  </Menu>
+
+  <Menu name="settings"><text>&amp;Settings</text>
+    <Action name="toolBar" />
+    <Action name="statusBar" />
+    <Separator />
+    <Action name="configure_keyBindings" />
+    <Action name="configure_Toolbars" />
+    <Action name="configure_Notifications" />
+    <Action name="configure_kmldonkey" />
+    <Separator />
+    <Action name="configure_mldonkey" />
+  </Menu>
+</MenuBar>
+
+<Menu name="server_actions"><text>Servers</text>
+  <Action name="connect_server" />
+  <Action name="connect_more_servers" />
+  <Action name="disconnect_server" />
+  <Separator />
+  <Action name="add_server" />
+  <Action name="remove_server" />
+  <Action name="remove_old_servers" />
+  <Action name="blacklist_server" />
+  <Action name="rename_server" />
+  <Action name="toggle_server_preferred" />
+  <Separator />
+  <Action name="copy_url" />
+  <Action name="copy_html" />
+  <Separator />
+  <Action name="hide_disconnected_servers" />
+  <Action name="hide_blacklisted_servers" />
+</Menu>
+
+<Menu name="search_actions"><text>Search</text>
+  <Action name="search_download" />
+  <Action name="search_force_download" />
+  <Action name="search_download_as" />
+  <Separator />
+  <Action name="copy_url" />
+  <Action name="copy_html" />
+  <Action name="copy_hash" />
+  <Separator />
+  <Action name="search_savelayout" />
+  <Separator />
+  <Action name="search_close" />
+  <Action name="search_closeall" />
+</Menu>
+
+<Menu name="download_actions"><text>Downloads</text>
+  <Action name="pause_selected" />
+  <Action name="resume_selected" />
+  <Action name="cancel_selected" />
+  <Action name="retry_selected" />
+  <Separator />
+  <Action name="rename_inplace" />
+  <Action name="rename_selected" />
+  <Separator />
+  <Action name="priority_menu" />
+  <Separator />
+  <Action name="verify_selected" />
+  <Action name="get_format_selected" />
+  <Separator />
+  <Action name="hide_paused_downloads" />
+  <Action name="hide_unpaused_downloads" />
+  <Action name="sort_downloading_first" />
+  <Action name="sort_paused_last" />
+  <Separator />
+  <Action name="copy_url" />
+  <Action name="copy_html" />
+  <Action name="copy_hash" />
+  <Separator />
+  <Action name="preview_selected" />
+  <Action name="file_information" />
+</Menu>
+
+<Menu name="downloaded_actions"><text>Completed Files</text>
+  <Action name="open_selected" />
+  <Action name="file_information" />
+  <Separator />
+  <Action name="commit_selected" />
+  <Action name="commit_as_selected" />
+  <Separator />
+  <Action name="copy_url" />
+  <Action name="copy_html" />
+  <Action name="copy_hash" />
+</Menu>
+
+<Menu name="upload_actions"><text>Shared Files</text>
+  <Action name="upload_refresh" />
+  <Separator />
+  <Action name="share_directory" />
+  <Action name="unshare_directory" />
+  <Separator />
+  <Action name="copy_url" />
+  <Action name="copy_html" />
+  <Action name="copy_hash" />
+</Menu>
+
+<Menu name="uploaders_actions"><text>Uploaders</text>
+  <Action name="uploaders_refresh" />
+</Menu>
+
+<ToolBar name="mainToolBar">
+  <Action name="configure_connection" />
+  <Separator />
+  <Action name="submit_url" />
+  <Action name="search_download" />
+  <Action name="commit_selected" />
+  <!--
+  <Action name="commit_as_selected" />
+  //-->
+  <Separator />
+  <Action name="pause_selected" />
+  <Action name="resume_selected" />
+  <Action name="cancel_selected" />
+  <!--
+  <Action name="retry_selected" />
+  <Action name="priority_menu" />
+  <Action name="preview_selected" />
+  //-->
+  <Action name="file_information" />
+  <Separator />
+  <Action name="copy_url" />
+</ToolBar>
+
+<Menu name="friend_actions"><text>Friends</text>
+  <Action name="connect_friend" />
+  <Action name="open_friend_chat" />
+  <Separator />
+  <Action name="add_friend" />
+  <Action name="remove_friend" />
+  <Separator />
+  <Action name="remove_all_friends" />
+</Menu>
+
+<Menu name="friend_share_actions"><text>Friend Shares</text>
+  <Action name="search_download" />
+  <Action name="search_force_download" />
+  <Action name="search_download_as" />
+  <Separator />
+  <Action name="copy_url" />
+  <Action name="copy_html" />
+  <Action name="copy_hash" />
+</Menu>
+
+<Menu name="systemtray_actions">
+  <Action name="submit_url" />
+  <Separator />
+  <Action name="connect_core" />
+  <Action name="disconnect_core" />
+  <Action name="toggle_bandwidth" />
+  <Action name="configure_connection" />
+  <Action name="configure_mldonkey" />
+  <Action name="configure_kmldonkey" />
+</Menu>
+
+</kpartgui>

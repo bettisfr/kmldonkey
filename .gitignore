@@ -1,0 +1,6 @@
+/build/
+/build-qt6/
+/dist/
+/.svn/
+/.codex-project-id
+/.depend

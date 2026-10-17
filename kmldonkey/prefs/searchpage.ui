@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>KMLDonkeyPrefSearchPage</class>
+ <widget class="QWidget" name="KMLDonkeyPrefSearchPage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>480</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Search Configuration</string>
+  </property>
+  <layout class="QVBoxLayout">
+   <item>
+    <widget class="QGroupBox" name="groupBox3">
+     <property name="title">
+      <string>Search Settings</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QCheckBox" name="activateNewTabsCheckbox">
+        <property name="toolTip">
+         <string>When a new search is started, open the search page in front of any other pages.</string>
+        </property>
+        <property name="text">
+         <string>Open new search pages in &amp;front</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="closeTabsOnDisconnectCheckbox">
+        <property name="toolTip">
+         <string>Close all open searches if KMLDonkey is disconnected from the core.</string>
+        </property>
+        <property name="text">
+         <string>&amp;Close search pages on disconnect</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="showNumbersOnTabsCheckbox">
+        <property name="text">
+         <string>Show number of search &amp;results in tab title</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="showSubmitURLCheckbox">
+        <property name="text">
+         <string>Show the &quot;Submit &amp;URL&quot; entry box</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Expanding</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>81</width>
+       <height>81</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,72 @@
+kmldonkey (2.1.5) unstable; urgency=low
+
+  * Fix memory-leaks and Javascript ownership-issues with SearchQuery-QObject's
+  * Fix those starting another search from the same search-query page could fail once more
+  * Fix made the application more robust in the case things go wrong
+  * Fix prevent switching from online to offline when connected with a host
+  * Fix proper disconnect when switching from online to offline rather then waiting for a socket-timeout
+  * Fix reconnect with internet when online-state changes to offline and both, auto reconnect and connect with internet on demand, is enabled
+  * Optimize CPU-usage by updating the transfer-page only once every two seconds and only if the page is visible
+  * Add support for multiple hosts
+  * Add button to search-page to close and forget remembered search results
+  * Add notification on error and an option to settings to enable/disable them
+  * Add option to settings to optionally show a progressbar rather then the % label at the transfer-page
+  * Use inverted theme as default since its official recommend to save battery
+
+ -- Sebastian Sauer <mail@dipe.org>  Mon, 09 Apr 2012 07:58:01 +0100
+
+kmldonkey (2.1.4) unstable; urgency=low
+
+  * Fix starting another search from the same search-query page could fail
+  * Fix file vanished from Transfer-page when state changed from downloading to complete
+  * Add an additional label to the connection-page to provide more describing details when connecting failed
+
+ -- Sebastian Sauer <mail@dipe.org>  Mon, 27 Mar 2012 19:51:07 +0100
+
+kmldonkey (2.1.3) unstable; urgency=low
+
+  * Fix segfault caused by wrong object-ownership of search-queries
+  * Fix new downloads did not show up instantly on the transfer-page
+
+ -- Sebastian Sauer <mail@dipe.org>  Mon, 25 Mar 2012 21:44:31 +0100
+
+kmldonkey (2.1.2) unstable; urgency=low
+
+  * Fix query-string sometimes not proper displayed on Search-page for new searches
+  * Fix file not removed from Transfer-page after saving
+  * Fix more cases where the wrong connection-state was displayed on connection-error
+  * Fix don't allow to emit console commands when disconnected from host
+  * Fix various things related to inverted themes
+  * Optimize CPU-usage and fix memory-leaks caused by pageStack.pop() not working as expected
+  * Add live-update when viewing the properties of a single file on the Transfer-page
+  * Add better visual help to search-results by colouring according to alreadyDone/availability
+
+ -- Sebastian Sauer <mail@dipe.org>  Mon, 25 Mar 2012 13:42:54 +0100
+
+kmldonkey (2.1.1) unstable; urgency=low
+
+  * Fix possibility that the same search-identifier was used for different searches
+  * Fix downloaded file was not removed from list of downloaded files when saved/cancelled
+  * Fix sometimes wrong connection-state displayed on connection-error
+  * Fix reconnect-on-disconnect did not try to go online when offline
+  * Fix console not cleared when disconnected
+  * Fix filename rather then network was displayed for search-results
+  * Fix sorting and grouping in the transfer-page
+  * Fix flickable at search-query was not flickable as expected
+  * Fix proper hide file-buttons at transfer-page if they are unrelated to the download-state
+  * Add button to transfer-page to save completed files
+  * Add option to settings to enable/disable connect to host on startup
+  * Add option to settings to enable/disable connect with internet on demand
+  * Add option to settings to enable/disable inverting the theme
+
+ -- Sebastian Sauer <mail@dipe.org>  Mon, 24 Mar 2012 22:11:45 +0100
+
+kmldonkey (2.1.0) unstable; urgency=low
+
+  * Initial Release of a QML based version of KMLDonkey for MeeGo.
+    Code got pushed to http://websvn.kde.org/trunk/extragear/network/kmldonkey/
+    * The qml/* directory contains the MeeGo version and uses qmake
+    * The kmldonkey/* directory contains the KDE desktop client and uses cmake
+    * The libkmldonkey/* directory contains the shared core-library used in qml/* and kmldonkey/*
+
+ -- Sebastian Sauer <mail@dipe.org>  Mon, 20 Feb 2012 02:22:57 +0100

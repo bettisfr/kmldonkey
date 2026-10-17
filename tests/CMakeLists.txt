@@ -1,0 +1,5 @@
+add_executable(portingtest portingtest.cpp)
+target_link_libraries(portingtest PRIVATE kmldonkey_ui Qt6::Test)
+qt_add_resources(portingtest "test_ui_resources" PREFIX "/kxmlgui5/kmldonkey" BASE "${CMAKE_SOURCE_DIR}/kmldonkey" FILES "${CMAKE_SOURCE_DIR}/kmldonkey/kmldonkeyui.rc")
+add_test(NAME porting COMMAND portingtest)
+set_tests_properties(porting PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=offscreen;XDG_DATA_DIRS=${CMAKE_BINARY_DIR}/share:/usr/local/share:/usr/share")
