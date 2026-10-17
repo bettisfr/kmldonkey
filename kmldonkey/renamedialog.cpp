@@ -57,6 +57,8 @@ RenameDialog::RenameDialog(DonkeyProtocol* protocol, int file)
 
     QWidget *frame = mainWidget();
     QGridLayout* layout = new QGridLayout(frame);
+    layout->setHorizontalSpacing(12);
+    layout->setVerticalSpacing(12);
 
     layout->addWidget(new QLabel(i18n("Name:"), frame), 0, 0);
     layout->addWidget(new QLabel(i18n("Size:"), frame), 1, 0);

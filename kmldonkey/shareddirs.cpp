@@ -87,11 +87,13 @@ SharedDirsDialog::SharedDirsDialog(QWidget* parent)
     QWidget *grpBox = mainWidget();
     QVBoxLayout* grpLayout = new QVBoxLayout(grpBox);
     grpLayout->setContentsMargins(0, 0, 0, 0);
+    grpLayout->setSpacing(12);
     grpBox->setLayout(grpLayout);
 
     QWidget *vbox = new QWidget(grpBox);
     QHBoxLayout* vboxLayout = new QHBoxLayout(vbox);
     vboxLayout->setContentsMargins(0, 0, 0, 0);
+    vboxLayout->setSpacing(12);
     vbox->setLayout(vboxLayout);
     grpLayout->addWidget(vbox, 2);
 
@@ -144,6 +146,8 @@ SharedDirsDialog::SharedDirsDialog(QWidget* parent)
     hb1->setLayout(hb1Layout);
     hb1Layout->addWidget( new QLabel(i18n("Folder:"), hb1) );
     editDir = new KLineEdit(hb1);
+    editDir->setClearButtonEnabled(true);
+    editDir->setPlaceholderText(i18n("Folder on the MLDonkey server"));
     hb1Layout->addWidget( editDir, 1 );
     connect(editDir, SIGNAL( textChanged(const QString &) ), this, SLOT( slotEditChanged() ));
     if (KMLDonkey::App->hostManager->hostType(KMLDonkey::App->lastHost) != HostInterface::External) {

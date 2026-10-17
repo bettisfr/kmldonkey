@@ -29,9 +29,13 @@
 #include <QApplication>
 #include <QPointer>
 #include <QCommandLineParser>
+#include <KIconTheme>
+#include <KStyleManager>
 int main(int argc, char** argv)
 {
+    KIconTheme::initTheme();
     QApplication app(argc, argv);
+    KStyleManager::initStyle();
     KLocalizedString::setApplicationDomain("kmldonkey");
     KAboutData about("kmldonkey", i18n("KMLDonkey"), "2.1.5", i18n("An MLDonkey frontend for the KDE desktop."),
         KAboutLicense::GPL_V2, i18n("Copyright © 2003–2018 The KMLDonkey Authors"));

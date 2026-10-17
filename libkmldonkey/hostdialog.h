@@ -27,6 +27,7 @@
 #include <kmldonkey_export.h>
 
 class QLineEdit;
+class KPasswordLineEdit;
 class QSpinBox;
 class QListWidget;
 class QPushButton;
@@ -51,7 +52,7 @@ class KMLDONKEY_EXPORT HostDialog : public QWidget
         QLineEdit* nameEntry;
         QLineEdit* addressEntry;
         QLineEdit* usernameEntry;
-        QLineEdit* passwordEntry;
+        KPasswordLineEdit* passwordEntry;
         QSpinBox* portEntry;
 
     public slots:

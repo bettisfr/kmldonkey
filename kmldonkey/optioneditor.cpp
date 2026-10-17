@@ -85,11 +85,18 @@ const DonkeyOption& MyDonkeyOption::option() const
 OptionEditorWidget::OptionEditorWidget(QWidget* parent)
     : QTableWidget(0, 2, parent)
 {
-    setSelectionMode(NoSelection);
+    setSelectionBehavior(QAbstractItemView::SelectRows);
+    setSelectionMode(QAbstractItemView::SingleSelection);
+    setAlternatingRowColors(true);
+    setShowGrid(false);
+    setFrameShape(QFrame::NoFrame);
+    setWordWrap(false);
+    verticalHeader()->setMinimumSectionSize(fontMetrics().height() + 14);
+    horizontalHeader()->setDefaultAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     verticalHeader()->hide();
     horizontalHeader()->setStretchLastSection(true);
     setHorizontalHeaderLabels( QStringList() << i18n("Option") << i18n("Value") );
-    setEditTriggers(QAbstractItemView::AllEditTriggers);
+    setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::EditKeyPressed | QAbstractItemView::SelectedClicked);
     connect(this, SIGNAL(itemChanged(QTableWidgetItem*)), SLOT(optionChanged(QTableWidgetItem*)));
 }
 
@@ -100,7 +107,12 @@ void OptionEditorWidget::addOption(const DonkeyOption& option)
     int row = rowCount();
     insertRow(row);
 
-    QTableWidgetItem *nameItem = new QTableWidgetItem(option.optionLabel());
+    QString label = option.optionLabel();
+    if (label == option.optionName()) {
+        label.replace(QChar('_'), QChar(' '));
+        if (!label.isEmpty()) label[0] = label[0].toUpper();
+    }
+    QTableWidgetItem *nameItem = new QTableWidgetItem(label);
     nameItem->setFlags(nameItem->flags() & ~Qt::ItemIsEditable);
 
     QString value = KMLDonkey::App->donkey->getOption(option.optionName());
@@ -121,8 +133,15 @@ void OptionEditorWidget::addOption(const DonkeyOption& option)
     }
     valueItem->setData(Qt::DisplayRole, variantValue);
     valueItem->setData(OptionIndexRole, row);
+    valueItem->setData(OptionTypeRole, int(option.type()));
+    nameItem->setData(Qt::UserRole, option.optionName());
+    if (option.type() == DonkeyOption::Boolean) {
+        valueItem->setData(Qt::DisplayRole, QVariant());
+        valueItem->setFlags((valueItem->flags() | Qt::ItemIsUserCheckable) & ~Qt::ItemIsEditable);
+        valueItem->setCheckState(variantValue.toBool() ? Qt::Checked : Qt::Unchecked);
+    }
 
-    nameItem->setToolTip(option.optionHelp());
+    nameItem->setToolTip(option.optionName() + QStringLiteral("\n\n") + option.optionHelp());
     valueItem->setToolTip(option.optionHelp());
 
     setItem(row, 0, nameItem);
@@ -142,7 +161,9 @@ void OptionEditorWidget::optionChanged(QTableWidgetItem *item)
     if (m_options.size() <= index) {
         return;//ignore signals emitted in addOption
     }
-    m_options[index].setValue(item->text());
+    m_options[index].setValue(item->data(OptionTypeRole).toInt() == DonkeyOption::Boolean
+        ? (item->checkState() == Qt::Checked ? QStringLiteral("true") : QStringLiteral("false"))
+        : item->text());
     emit listIsDirty();
 }
 

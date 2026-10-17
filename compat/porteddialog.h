@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 #pragma once
 #include <KGuiItem>
+#include <KStandardGuiItem>
+#include <KTitleWidget>
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QPushButton>
@@ -17,6 +19,10 @@ public:
         , m_main(new QWidget(this))
         , m_buttons(new QDialogButtonBox(this))
     {
+        m_layout->setContentsMargins(marginHint(), marginHint(), marginHint(), marginHint());
+        m_layout->setSpacing(spacingHint());
+        m_title = new KTitleWidget(this);
+        m_layout->addWidget(m_title);
         m_layout->addWidget(m_main);
         m_layout->addWidget(m_buttons);
         connect(m_buttons, &QDialogButtonBox::accepted, this, &QDialog::accept);
@@ -36,7 +42,7 @@ public:
         });
         setButtons(Ok | Cancel);
     }
-    void setCaption(const QString& s) { setWindowTitle(s); }
+    void setCaption(const QString& s) { setWindowTitle(s); m_title->setText(s); }
     QWidget* mainWidget() const { return m_main; }
     void setMainWidget(QWidget* w)
     {
@@ -59,6 +65,19 @@ public:
             m_try = nullptr;
         }
         m_buttons->setStandardButtons(buttons);
+        for (auto code : {Ok, Cancel, Apply, Close, Help, Default}) {
+            if (auto* b = button(code)) {
+                switch (code) {
+                case Ok: KGuiItem::assign(b, KStandardGuiItem::ok()); break;
+                case Cancel: KGuiItem::assign(b, KStandardGuiItem::cancel()); break;
+                case Apply: KGuiItem::assign(b, KStandardGuiItem::apply()); break;
+                case Close: KGuiItem::assign(b, KStandardGuiItem::close()); break;
+                case Help: KGuiItem::assign(b, KStandardGuiItem::help()); break;
+                case Default: KGuiItem::assign(b, KStandardGuiItem::defaults()); break;
+                default: break;
+                }
+            }
+        }
         if (flags & Try)
             m_try = m_buttons->addButton(tr("Preview"), QDialogButtonBox::ActionRole);
     }
@@ -87,8 +106,8 @@ public:
         if (auto* b = button(code))
             b->setDefault(true);
     }
-    static int spacingHint() { return 6; }
-    static int marginHint() { return 9; }
+    static int spacingHint() { return 12; }
+    static int marginHint() { return 12; }
 signals:
     void okClicked();
     void applyClicked();
@@ -119,6 +138,7 @@ private:
         }
     }
     QVBoxLayout* m_layout;
+    KTitleWidget* m_title;
     QWidget* m_main;
     QDialogButtonBox* m_buttons;
     QPushButton* m_try = nullptr;

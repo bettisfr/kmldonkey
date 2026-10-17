@@ -40,7 +40,7 @@
 #include <QDebug>
 #include <KCoreAddons>
 #include <kiconloader.h>
-#include <QInputDialog>
+#include "kdeinputdialog.h"
 #include <klineedit.h>
 #include <QTreeWidget>
 #include <KLocalizedString>
@@ -256,7 +256,7 @@ void SearchResult::DownloadSelectedItems(bool force, bool askForFilename)
         SearchResultItem *item = (SearchResultItem *) i;
         filename = item->text(0);
         if (askForFilename || ! filename.length()) {
-            filename = QInputDialog::getText( this, i18n("Download As"),
+            filename = KdeInputDialog::getText( this, i18n("Download As"),
                                               i18n("Choose a filename for the new download:"),
                                               QLineEdit::Normal, filename, &ok );
             if (! ok)

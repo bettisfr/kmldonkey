@@ -76,6 +76,8 @@ ConsolePage::ConsolePage(QWidget* parent)
 {
     setObjectName("consolePage");
     alreadyClear = true;
+    setMargin(12);
+    setSpacing(8);
 
     consoleView = new QTextBrowser(this);
     //consoleView->setFocusPolicy(QTextBrowser::ClickFocus);
@@ -99,6 +101,9 @@ ConsolePage::ConsolePage(QWidget* parent)
     consoleView->append("<hr>");
 
     consoleEntry = new KLineEdit(this);
+    consoleEntry->setPlaceholderText(i18n("Enter an MLDonkey command…"));
+    consoleEntry->setClearButtonEnabled(true);
+    consoleEntry->setAccessibleName(i18n("MLDonkey command"));
     connect(consoleEntry, &QLineEdit::returnPressed, this, [this]{
         const QString text=consoleEntry->text();
         consoleEntry->completionObject()->addItem(text);

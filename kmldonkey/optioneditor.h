@@ -53,7 +53,7 @@ class OptionEditorWidget : public QTableWidget
     Q_OBJECT
 
 public:
-    enum { OptionIndexRole = Qt::UserRole + 1};
+    enum { OptionIndexRole = Qt::UserRole + 1, OptionTypeRole };
     OptionEditorWidget(QWidget* parent = 0);
     
     void addOption(const DonkeyOption& option);

@@ -35,7 +35,8 @@
 #include <QRegularExpression>
 #include <QDialogButtonBox>
 #include <QPushButton>
-#include <QMessageBox>
+#include <KMessageBox>
+#include <KLineEdit>
 #include <memory>
 #include "hostiface.h"
 #include <QVBoxLayout>
@@ -110,6 +111,9 @@ DownloadPathsWidget::DownloadPathsWidget(DonkeyProtocol* core, QWidget* parent)
     auto* layout = new QVBoxLayout(this);
     auto* group = new QGroupBox(i18n("Download folders"), this);
     auto* form = new QFormLayout(group);
+    form->setHorizontalSpacing(12);
+    form->setVerticalSpacing(12);
+    form->setRowWrapPolicy(QFormLayout::WrapLongRows);
     QString host = core->getHost() ? core->getHost()->address() : QStringLiteral("localhost");
     const bool local = host.compare(QStringLiteral("localhost"), Qt::CaseInsensitive) == 0
         || QHostAddress(host).isLoopback();
@@ -117,7 +121,8 @@ DownloadPathsWidget::DownloadPathsWidget(DonkeyProtocol* core, QWidget* parent)
         auto* row = new QWidget(this);
         auto* box = new QHBoxLayout(row);
         box->setContentsMargins(0, 0, 0, 0);
-        auto* edit = new QLineEdit(row);
+        auto* edit = new KLineEdit(row);
+        edit->setClearButtonEnabled(true);
         auto* browse = new QPushButton(QIcon::fromTheme("document-open-folder"), i18n("Browse…"), row);
         box->addWidget(edit, 1);
         box->addWidget(browse);
@@ -349,6 +354,50 @@ MLDonkeyConfigDialog::MLDonkeyConfigDialog(QWidget* parent, const char* name)
     QString pathsSection = QStringLiteral("Paths");
     for (const DonkeyOption& option : KMLDonkey::App->donkey->sectionOptions())
         if (option.optionName() == QStringLiteral("temp_directory")) pathsSection = option.optionSection();
+    auto wrapOptions = [this](OptionEditorWidget* table) {
+        auto* wrapper = new QWidget(this);
+        auto* layout = new QVBoxLayout(wrapper);
+        layout->setContentsMargins(12, 12, 12, 12);
+        layout->setSpacing(12);
+        auto* filter = new KLineEdit(wrapper);
+        filter->setPlaceholderText(i18n("Search options in this category…"));
+        filter->setClearButtonEnabled(true);
+        filter->setAccessibleName(i18n("Search options"));
+        filter->addAction(QIcon::fromTheme(QStringLiteral("edit-find")), QLineEdit::LeadingPosition);
+        auto* description = new QLabel(i18n("Select an option to read its description. Double-click a value to edit it."), wrapper);
+        description->setTextFormat(Qt::PlainText);
+        description->setWordWrap(true);
+        description->setMinimumHeight(description->fontMetrics().height() * 3);
+        layout->addWidget(filter);
+        layout->addWidget(table, 1);
+        layout->addWidget(description);
+        connect(filter, &QLineEdit::textChanged, table, [table](const QString& text) {
+            for (int row = 0; row < table->rowCount(); ++row) {
+                const auto* name = table->item(row, 0);
+                const auto* value = table->item(row, 1);
+                const QString searchable = name->text() + QChar(32) + name->data(Qt::UserRole).toString()
+                    + QChar(32) + name->toolTip() + QChar(32) + value->text();
+                table->setRowHidden(row, !searchable.contains(text, Qt::CaseInsensitive));
+            }
+        });
+        connect(table, &QTableWidget::currentCellChanged, description,
+            [table, description](int row, int, int, int) {
+                if (row >= 0 && table->item(row, 0))
+                    description->setText(table->item(row, 0)->toolTip());
+            });
+        return wrapper;
+    };
+    auto sectionIcon = [](const QString& section) {
+        const QString name = section.toLower();
+        QString icon = QStringLiteral("preferences-other");
+        if (name.contains("bandwidth")) icon = QStringLiteral("network-workgroup");
+        else if (name.contains("security")) icon = QStringLiteral("security-high");
+        else if (name.contains("path") || name.contains("download")) icon = QStringLiteral("folder-download");
+        else if (name.contains("interface") || name.contains("network")) icon = QStringLiteral("network-wired");
+        else if (name.contains("startup")) icon = QStringLiteral("system-run");
+        else if (name.contains("mail")) icon = QStringLiteral("mail-message");
+        return QIcon::fromTheme(icon);
+    };
     // Add regular option sections
     OptionEditorWidget* page;
     foreach (const DonkeyOption &opt, KMLDonkey::App->donkey->sectionOptions()) {
@@ -359,10 +408,12 @@ MLDonkeyConfigDialog::MLDonkeyConfigDialog(QWidget* parent, const char* name)
         if (!page) {
             page = new OptionEditorWidget(this);
             if (section == pathsSection) {
-                m_paths->addAdvancedOptions(page);
+                m_paths->addAdvancedOptions(wrapOptions(page));
                 m_pathsItem = addPage(m_paths, section);
             } else {
-                addPage(page, section);
+                auto* item = addPage(wrapOptions(page), section);
+                item->setIcon(sectionIcon(section));
+                item->setHeader(section);
             }
             connect(page, SIGNAL(listIsDirty()), SLOT(setDirtyDialog()));
             pages.insert(section, page);
@@ -370,15 +421,17 @@ MLDonkeyConfigDialog::MLDonkeyConfigDialog(QWidget* parent, const char* name)
         if (opt.optionName() != QStringLiteral("temp_directory")) page->addOption(opt);
     }
     if (!m_pathsItem) m_pathsItem = addPage(m_paths, i18n("Paths"));
+    m_pathsItem->setIcon(QIcon::fromTheme(QStringLiteral("folder-download")));
     // Add the root network page
     QString networksName = i18nc("mldonkey config: network options page", "Networks");
 
     QWidget* w = new QWidget(this);
     QVBoxLayout* l = new QVBoxLayout(w);
-    l->setSpacing(0);
+    l->setSpacing(12);
     l->setContentsMargins(0, 0, 0, 0);
 
     KPageWidgetItem* networkItem = addPage(w, networksName);
+    networkItem->setIcon(QIcon::fromTheme(QStringLiteral("network-wired")));
     m_networkPage = new NetworkPage(w);
     l->addWidget(m_networkPage);
     connect(m_networkPage, SIGNAL(pageDirty()), SLOT(setDirtyDialog()));
@@ -391,14 +444,16 @@ MLDonkeyConfigDialog::MLDonkeyConfigDialog(QWidget* parent, const char* name)
         page = pages.value(section);
         if (!page) {
             page = new OptionEditorWidget(this);
-            addSubPage(networkItem, page, section);
+            auto* item = addSubPage(networkItem, wrapOptions(page), section);
+            item->setIcon(QIcon::fromTheme(QStringLiteral("network-server")));
+            item->setHeader(section);
             connect(page, SIGNAL(listIsDirty()), SLOT(setDirtyDialog()));
             pages.insert(section, page);
         }
         page->addOption(opt);
     }
 
-    resize(QSize(800, 640).expandedTo( minimumSizeHint() ));
+    resize(QSize(980, 700).expandedTo( minimumSizeHint() ));
     //setInitialSize(configDialogSize("MLConfigDialog"));
     foreach (OptionEditorWidget *w, pages) {
         w->sortByColumn(-1, Qt::AscendingOrder);
@@ -433,13 +488,11 @@ void MLDonkeyConfigDialog::saveOptions(bool closeWhenSaved)
     m_closeAfterSave = closeWhenSaved;
     const QString error = m_paths->validationError();
     if (!error.isEmpty()) {
-        QMessageBox message(QMessageBox::Warning, i18n("Download folders"), error, QMessageBox::Ok, this);
-        message.setTextFormat(Qt::PlainText);
-        message.exec();
+        KMessageBox::error(this, error, i18n("Download folders"), KMessageBox::PlainText);
         return;
     }
     if (!KMLDonkey::App->donkey->isConnected()) {
-        QMessageBox::warning(this, i18n("MLDonkey Configuration"), i18n("Connect to MLDonkey before saving settings."));
+        KMessageBox::error(this, i18n("Connect to MLDonkey before saving settings."), i18n("MLDonkey Configuration"));
         return;
     }
     m_saving = true;

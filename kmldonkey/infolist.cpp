@@ -66,6 +66,8 @@ InfoList::InfoList( QWidget* parent, const char* name, bool headervisiblepopup )
     m_name = name;
 
     setFont(KMLDonkey::App->listFont);
+    setAlternatingRowColors(true);
+    setFrameShape(QFrame::NoFrame);
 	
 	setSelectionBehavior( QTreeWidget::SelectRows );
 	setSelectionMode( QTreeWidget::ExtendedSelection );

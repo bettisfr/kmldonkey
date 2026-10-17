@@ -72,8 +72,10 @@ FileInfoDialog::FileInfoDialog(int file)
     if (!fi) return;
 
     QFrame *frame = new QFrame(this);
-    addPage(frame, i18n("File"));
+    addPage(frame, i18n("File"))->setIcon(QIcon::fromTheme(QStringLiteral("document-properties")));
     QGridLayout* layout = new QGridLayout(frame);
+    layout->setHorizontalSpacing(12);
+    layout->setVerticalSpacing(12);
 
     layout->addWidget(makeLabel(i18n("Name:"), frame), 0, 0);
     layout->addWidget(makeLabel(i18n("Complete:"), frame), 1, 0);
@@ -163,7 +165,7 @@ FileInfoDialog::FileInfoDialog(int file)
     layout->setColumnStretch(1, 100);
 
     QFrame *srcframe = new QFrame(this);
-    addPage(srcframe,i18n("Sources"));
+    addPage(srcframe,i18n("Sources"))->setIcon(QIcon::fromTheme(QStringLiteral("network-workgroup")));
     QVBoxLayout* srclayout = new QVBoxLayout(srcframe);
     clientList = new ClientList(fileno, srcframe);
     srclayout->addWidget(clientList);

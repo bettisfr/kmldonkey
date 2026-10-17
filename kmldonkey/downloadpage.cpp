@@ -82,15 +82,17 @@ DownloadPage::DownloadPage( QWidget* parent )
     {
         QWidget *searchBox = new QWidget( downloadBox );
         QHBoxLayout* searchlayout = new QHBoxLayout(searchBox);
-        searchlayout->setSpacing(0);
-        searchlayout->setContentsMargins(0, 0, 0, 0);
+        searchlayout->setSpacing(8);
+        searchlayout->setContentsMargins(12, 8, 12, 8);
         searchBox->setLayout(searchlayout);
         //searchBox->setContentsMargins( 4 ,  4 ,  4 ,  4 );
         l->addWidget( searchBox );
 
         m_filterEdit = new KLineEdit( /*i18n( "Filter here" ),*/ searchBox );
         m_filterEdit->setClearButtonEnabled(true);
-        m_filterEdit->setFrame( QFrame::Sunken );
+        m_filterEdit->setPlaceholderText(i18n("Filter downloads…"));
+        m_filterEdit->setAccessibleName(i18n("Filter downloads"));
+        m_filterEdit->addAction(QIcon::fromTheme(QStringLiteral("edit-find")), QLineEdit::LeadingPosition);
         searchlayout->addWidget( m_filterEdit );
 
         downloadView = new InfoList( downloadBox, "downloadView", true );

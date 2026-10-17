@@ -40,7 +40,10 @@ FileSelector::FileSelector( const QString& dialogCaption, bool selectDir, QWidge
 {
     setObjectName(name);
     QHBoxLayout * l = new QHBoxLayout( this );
+    l->setContentsMargins(0, 0, 0, 0);
+    l->setSpacing(8);
     m_name = new KLineEdit( this );
+    m_name->setClearButtonEnabled(true);
     m_name->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
     l->addWidget( m_name );
     m_button = new QPushButton( QIcon::fromTheme("document-open"), QString(), this );

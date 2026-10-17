@@ -40,6 +40,8 @@ SubmitDialog::SubmitDialog(QWidget* parent)
     m_edit = new QTextEdit(this);
     m_edit->setLineWrapMode(QTextEdit::NoWrap);
     m_edit->setAcceptRichText(false);
+    m_edit->setPlaceholderText(i18n("Paste download links here, one per line…"));
+    m_edit->setAccessibleName(i18n("Download links"));
     m_edit->setFocus();
     connect(m_edit, SIGNAL(textChanged()), this, SLOT(editChanged()));
     editChanged();

@@ -46,7 +46,8 @@ StatsPage::StatsPage(QWidget *parent)
 	setObjectName( "statsPage" );
     
 	tabpos = 2;
-    setContentsMargins(6, 6, 6, 6);
+    setContentsMargins(8, 8, 8, 8);
+    setDocumentMode(true);
 
     // Rates
     ratespage = new StatsPageRates(this);

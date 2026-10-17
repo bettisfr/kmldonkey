@@ -29,6 +29,7 @@
 #include <QLabel>
 #include <QGroupBox>
 #include <QVBoxLayout>
+#include <QFormLayout>
 
 #include <QDebug>
 #include <KLocalizedString>
@@ -44,7 +45,7 @@ SearchCoreWidget::SearchCoreWidget( SearchCore* c, QWidget *parent, SearchCoreWi
     , m_container( container )
 {
     setMargin( 0 );
-    setSpacing( 0 );
+    setSpacing(8);
 }
 
 
@@ -323,9 +324,9 @@ SearchCoreWidget* SearchCoreWidgetModule::setQuery( SearchQuery *query )
 
     m_name = q->getName();
     QGroupBox *grp = new QGroupBox( m_name, m_parent );
-    grp->setAlignment( Qt::Horizontal );
+    grp->setAlignment(Qt::AlignLeft);
     QVBoxLayout* layout = new QVBoxLayout(grp);
-    layout->setSpacing(0);
+    layout->setSpacing(8);
     grp->setLayout(layout);
     m_parent = grp;
 
@@ -362,9 +363,14 @@ SearchCoreWidget* SearchCoreWidgetEdit::setQuery( SearchQuery *query, const QStr
     if ( !q )
         return 0;
 
-    HBoxWidget *box = new HBoxWidget( m_parent );
-    box->setEnabled( !m_hidden );
-    box->setSpacing( 0 );
+    auto* box = new QWidget(m_parent);
+    box->setEnabled(!m_hidden);
+    auto* form = new QFormLayout(box);
+    form->setContentsMargins(0, 0, 0, 0);
+    form->setFieldGrowthPolicy(QFormLayout::AllNonFixedFieldsGrow);
+    form->setRowWrapPolicy(QFormLayout::WrapLongRows);
+    form->setLabelAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    form->setHorizontalSpacing(12);
 
     if ( m_parent->layout() )
         m_parent->layout()->addWidget(box);
@@ -372,11 +378,16 @@ SearchCoreWidget* SearchCoreWidgetEdit::setQuery( SearchQuery *query, const QStr
     m_key = q->key();
 
     //TODO The label should reflect the parent SearchQueryList if there is one!
-    new QLabel( getTitle(), box );
+    auto* label = new QLabel(getTitle(), box);
+    label->setMinimumWidth(fontMetrics().horizontalAdvance(i18n("Keywords:")));
     if ( items.isEmpty() )
     {
         m_edit = new KLineEdit( box );
-        box->setStretchFactor( m_edit, 1 );
+        form->addRow(label, m_edit);
+        label->setBuddy(m_edit);
+        m_edit->setClearButtonEnabled(true);
+        if (query->operation() == SearchQuery::Keywords)
+            m_edit->setPlaceholderText(i18n("Search for files…"));
         if ( isHidden() )
             m_edit->setText( m_key );
 
@@ -385,7 +396,8 @@ SearchCoreWidget* SearchCoreWidgetEdit::setQuery( SearchQuery *query, const QStr
     else
     {
         m_combo = new KComboBox( box );
-        box->setStretchFactor( m_combo, 1 );
+        form->addRow(label, m_combo);
+        label->setBuddy(m_combo);
         m_combo->setEditable( true );
         m_combo->insertItem( 0, isHidden() ? m_key : QString( "" ) );
         m_combo->insertItems( 1, items );

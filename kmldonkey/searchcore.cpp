@@ -28,6 +28,8 @@
 #include <QRegExp>
 #include <QScrollArea>
 #include <QFrame>
+#include <QFormLayout>
+#include <QIcon>
 
 #include <kcombobox.h>
 #include <kconfig.h>
@@ -91,13 +93,20 @@ SearchCore::SearchCore( QWidget *parent, SearchPage *page )
     maxHits = 500;
     searchType = 0;
 
-    setMargin( 0 );
-    setSpacing( 2 );
+    setMargin(12);
+    setSpacing(12);
+    auto* heading = new QLabel(i18n("Search"), this);
+    QFont headingFont = heading->font();
+    headingFont.setBold(true);
+    headingFont.setPointSizeF(headingFont.pointSizeF() * 1.25);
+    heading->setFont(headingFont);
 
     // Form selector. The different forms are defined in
     // DonkeyProtocol::definedSearches(). So, they are core-depended
     // and configurable that way.
     m_formcombo = new KComboBox( this );
+    m_formcombo->setToolTip(i18n("Search form"));
+    m_formcombo->setAccessibleName(i18n("Search form"));
     connect( m_formcombo, SIGNAL( activated( int ) ), this, SLOT( activateFormCombo( int ) ) );
 
     // The scrollview is used to display the formwidgets.
@@ -108,46 +117,38 @@ SearchCore::SearchCore( QWidget *parent, SearchPage *page )
 
     // Following widgets are form independed. They are
     // always around.
-    VBoxWidget* box = new VBoxWidget( this );
-    box->setContentsMargins( 2 ,  2 ,  2 ,  2 );
-    box->setSpacing( 0 );
-
-    // Max Hits
-    HBoxWidget *mhbox = new HBoxWidget( box );
-    mhbox->setContentsMargins( 0 ,  0 ,  0 ,  0 );
-    mhbox->setSpacing( 0 );
-    new QLabel( i18n( "Max hits:" ), mhbox );
-    maxhitsEdit = new QSpinBox( mhbox );
-    mhbox->setStretchFactor( maxhitsEdit, 1 );
+    auto* box = new QWidget(this);
+    auto* optionsLayout = new QVBoxLayout(box);
+    optionsLayout->setContentsMargins(0, 0, 0, 0);
+    optionsLayout->setSpacing(12);
+    auto* form = new QFormLayout;
+    form->setFieldGrowthPolicy(QFormLayout::AllNonFixedFieldsGrow);
+    form->setRowWrapPolicy(QFormLayout::WrapLongRows);
+    form->setLabelAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    form->setHorizontalSpacing(12);
+    form->setVerticalSpacing(8);
+    optionsLayout->addLayout(form);
+    maxhitsEdit = new QSpinBox(box);
     maxhitsEdit->setRange(1, 10000);
-
-    maxhitsEdit->setValue( maxHits );
-
-    // Type
-    HBoxWidget *typebox = new HBoxWidget( box );
-    typebox->setContentsMargins( 0 ,  0 ,  0 ,  0 );
-    typebox->setSpacing( 0 );
-    new QLabel(i18nc( "search type", "Type:" ), typebox );
-    searchtypeCombo = new KComboBox( typebox );
-    typebox->setStretchFactor( searchtypeCombo, 1 );
-    searchtypeCombo->insertItem(0, i18nc( "remote search", "Remote" ) );
-    searchtypeCombo->insertItem(1, i18nc( "local search", "Local" ) );
-    searchtypeCombo->insertItem(2, i18nc( "subscription search", "Subscribe" ));
-    searchtypeCombo->setCurrentIndex( searchType );
-
-    // Network
-    HBoxWidget *netbox = new HBoxWidget( box );
-    netbox->setContentsMargins( 0 ,  0 ,  0 ,  0 );
-    netbox->setSpacing( 0 );
-    new QLabel( i18n( "Network:" ), netbox );
-    searchnetCombo = new KComboBox( netbox );
-    netbox->setStretchFactor( searchnetCombo, 1 );
-    searchnetCombo->insertItem( 0, i18n( "All Networks" ) );
-    searchnetCombo->setCurrentItem( 0 );
-    connect( KMLDonkey::App->donkey, SIGNAL( networkUpdated( int ) ), this, SLOT( setNetworks( int ) ) );
+    maxhitsEdit->setValue(maxHits);
+    form->addRow(i18n("Maximum results:"), maxhitsEdit);
+    searchtypeCombo = new KComboBox(box);
+    searchtypeCombo->addItem(i18nc("remote search", "Remote"));
+    searchtypeCombo->addItem(i18nc("local search", "Local"));
+    searchtypeCombo->addItem(i18nc("subscription search", "Subscribe"));
+    searchtypeCombo->setCurrentIndex(searchType);
+    form->addRow(i18nc("search type", "Type:"), searchtypeCombo);
+    searchnetCombo = new KComboBox(box);
+    searchnetCombo->addItem(i18n("All Networks"));
+    searchnetCombo->setCurrentIndex(0);
+    form->addRow(i18n("Network:"), searchnetCombo);
+    connect(KMLDonkey::App->donkey, SIGNAL(networkUpdated(int)), this, SLOT(setNetworks(int)));
 
     // Start search button
     startButton = new QPushButton( i18nc( "start a search", "Search" ), box );
+    startButton->setIcon(QIcon::fromTheme(QStringLiteral("system-search")));
+    startButton->setMinimumHeight(startButton->sizeHint().height() + 6);
+    optionsLayout->addWidget(startButton);
     startButton->setEnabled( false );
     connect( startButton, SIGNAL( clicked() ), this, SLOT( startSearch() ) );
 
@@ -191,7 +192,7 @@ void SearchCore::clear()
 {
     clearFormWidget();
     clearFormQueries();
-    searchnetCombo->setCurrentItem( 0 );
+    searchnetCombo->setCurrentIndex(0);
 
     for ( int i = searchnetCombo->count() - 1; i > 0; i-- )
         searchnetCombo->removeItem( i );
@@ -288,7 +289,7 @@ void SearchCore::activateFormCombo( int index )
     activateDef = m_formcombo->currentText();
     m_form = new VBoxWidget( m_formscroll );
     m_form->setContentsMargins( 2 ,  2 ,  2 ,  2 );
-    m_form->setSpacing( 0 );
+    m_form->setSpacing(12);
 
     // Cause we don't handle SearchQuery->operation() at this time we just
     // have to create a temp SearchCoreWidget and delete it after the job

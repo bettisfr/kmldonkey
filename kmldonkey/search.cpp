@@ -67,11 +67,13 @@ SearchPage::SearchPage( QWidget *parent )
     setMargin( 0 );
     setSpacing( 0 );
     splitter = new QSplitter( this );
+    splitter->setChildrenCollapsible(false);
 
     searchcore = new SearchCore( splitter, this );
 	splitter->setStretchFactor( splitter->indexOf( searchcore), 0 );
 
     VBoxWidget* rightBox = new VBoxWidget( splitter );
+    splitter->setStretchFactor(splitter->indexOf(rightBox), 1);
     ed2kBox = new HBoxWidget( rightBox );
     ed2kBox->setContentsMargins( 0 ,  0 ,  0 ,  0 );
     ed2kBox->setSpacing( 0 );
@@ -82,6 +84,7 @@ SearchPage::SearchPage( QWidget *parent )
     connect( ed2kEntry, SIGNAL( returnPressed() ), SLOT( submitED2K() ) );
 
     resultTabs = new QTabWidget( rightBox );
+    resultTabs->setDocumentMode(true);
     resultTabs->setTabsClosable( true );
     resultTabs->setMovable( true );
     resultTabs->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -213,6 +216,8 @@ void SearchPage::restoreState(KSharedConfigPtr conf)
     QList<int> searchsplitter = group.readEntry( "Splitter", QList<int>() );
     if( searchsplitter.count() > 0 )
         splitter->setSizes(searchsplitter);
+    else
+        splitter->setSizes({340, 900});
 
     activateNewTabs = group.readEntry("activateNewTabs", true);
     closeTabsOnDisconnect = group.readEntry("closeTabsOnDisconnect", true);

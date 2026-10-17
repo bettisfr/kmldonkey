@@ -10,7 +10,8 @@ sudo apt install build-essential cmake ninja-build extra-cmake-modules dpkg-dev 
   libkf6notifications-dev libkf6iconthemes-dev
 ```
 
-The project requires C++17, CMake 3.22 or newer, Qt6, and KDE Frameworks 6.
+The project requires C++17, CMake 3.22 or newer, Qt6, and KDE Frameworks 6.3
+or newer. KDE style and icon initialization follow the user's desktop settings.
 The `Qt6::Core5Compat` dependency is a **Qt6** module used for legacy regular
 expressions and protocol text codecs. Qt4, Qt5, and KDE4 are not used.
 
@@ -18,7 +19,7 @@ expressions and protocol text codecs. Qt4, Qt5, and KDE4 are not used.
 
 ```sh
 ./scripts/build-deb.sh
-sudo apt install ./build-qt6/kmldonkey_2.1.5+qt6.9_amd64.deb
+sudo apt install ./build-qt6/kmldonkey_2.1.5+qt6.11_amd64.deb
 ```
 
 The script configures a Release build with `/usr` as the install prefix, builds
@@ -58,8 +59,9 @@ configuration time to omit the test executable.
 The desktop application, protocol library, and their automated tests have been
 checked with Qt 6.10.2, KF6 6.24.0, GCC 15, and CMake 4.2 on Ubuntu 26.04 amd64.
 Package generation and startup of the extracted package outside the source tree
-have also been checked. The old Plasma applet and MeeGo UI are not built. The classes in `compat/`
-implement the old box layout and dialog behavior using Qt6 / KF6 widgets.
+have also been checked. The obsolete Plasma applet and MeeGo UI have been removed.
+The classes in `compat/` adapt the inherited box layouts and dialog APIs to
+Qt6 / KF6 widgets, including shared KDE titles, buttons and text prompts.
 
 Initial manual use with the companion MLDonkey OCaml 5 port has exercised
 searches, live downloads, completed files and folder configuration. Broader

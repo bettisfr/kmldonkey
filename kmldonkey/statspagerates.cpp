@@ -41,9 +41,7 @@ StatsWidget::StatsWidget( QWidget *parent, long defaultmaxvalue )
 {
     setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
     
-	QPalette p;
-	p.setColor(backgroundRole(), Qt::white );
-	setPalette( p );
+    setBackgroundRole(QPalette::Base);
 
     maxvalue = defaultmaxvalue;
     minvalue = defaultmaxvalue;
@@ -146,7 +144,7 @@ StatsWidget::render()
             *m_pixmap = m_pixmap->scaled( width(), height() );
 
     QPainter painter( m_pixmap );
-    painter.fillRect( 0, 0, width(), height(), Qt::white ); // clear the painting-area
+    painter.fillRect(0, 0, width(), height(), palette().base()); // clear the painting-area
 
     int w, pos, prevpos;
     int h = height() - 4;
@@ -163,7 +161,7 @@ StatsWidget::render()
         int psteps = (int)( (float)h / vrange * vsteps );
         int r = maxvalue;
 
-        painter.setPen( Qt::lightGray );
+        painter.setPen(palette().color(QPalette::Mid));
         for ( int i = psteps; i < height(); i += ( psteps > 0 ) ? psteps : 100 )
         {
             r -= vsteps;

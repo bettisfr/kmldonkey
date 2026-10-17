@@ -72,6 +72,7 @@ QAbstractItemView *KmldView::createView(QAbstractItemModel *model, const QString
     if (qobject_cast<QSortFilterProxyModel*>(model))
         view->setSortingEnabled(true);
     view->setWordWrap(false);
+    view->setFrameShape(QFrame::NoFrame);
     view->setFont(KMLDonkey::App->listFont);
     view->setUniformRowHeights(true);
     view->setRootIsDecorated(false);

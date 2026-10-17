@@ -33,6 +33,8 @@
 #include <QGridLayout>
 #include <QLabel>
 #include <QLineEdit>
+#include <KLineEdit>
+#include <KPasswordLineEdit>
 #include <QSpinBox>
 #include <QPushButton>
 #include <QListWidget>
@@ -95,7 +97,7 @@ HostDialog::HostDialog(QWidget* parent, HostManager* hostmanager, DonkeyProtocol
 
         defaultButton = new QPushButton(i18n("Set as Default"), box);
         btnLayout->addWidget( defaultButton );
-        defaultButton->setIcon(QIcon::fromTheme("kmldonkey"));
+        defaultButton->setIcon(QIcon::fromTheme("favorite"));
         connect( defaultButton, SIGNAL( clicked() ), this, SLOT( defaultButtonClicked() ) );
 
         newButton = new QPushButton(i18n("Add"), box);
@@ -116,11 +118,14 @@ HostDialog::HostDialog(QWidget* parent, HostManager* hostmanager, DonkeyProtocol
     hostFrame->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     QGridLayout* hostFrameLayout = new QGridLayout( hostFrame );
     hostFrameLayout->setContentsMargins(0, 0, 0, 0);
+    hostFrameLayout->setHorizontalSpacing(12);
+    hostFrameLayout->setVerticalSpacing(12);
     hostFrame->setLayout(hostFrameLayout);
     {
         QLabel* label = new QLabel(i18n("Name:"), hostFrame);
         hostFrameLayout->addWidget( label, 0, 0 );
-        nameEntry = new QLineEdit( hostFrame );
+        nameEntry = new KLineEdit(hostFrame);
+        nameEntry->setClearButtonEnabled(true);
         hostFrameLayout->addWidget( nameEntry, 0, 1 );
         label->setBuddy( nameEntry );
         connect( nameEntry, SIGNAL(textEdited(QString)), this, SLOT(editChanged()) );
@@ -128,7 +133,8 @@ HostDialog::HostDialog(QWidget* parent, HostManager* hostmanager, DonkeyProtocol
     {
         QLabel* label = new QLabel(i18n("Address:"), hostFrame);
         hostFrameLayout->addWidget( label, 1, 0 );
-        addressEntry = new QLineEdit( hostFrame );
+        addressEntry = new KLineEdit(hostFrame);
+        addressEntry->setClearButtonEnabled(true);
         addressEntry->setObjectName( "addressEntry" );
         addressEntry->setMinimumWidth(160);
         hostFrameLayout->addWidget( addressEntry, 1, 1 );
@@ -148,7 +154,8 @@ HostDialog::HostDialog(QWidget* parent, HostManager* hostmanager, DonkeyProtocol
     {
         QLabel* label = new QLabel(i18n("Username:"), hostFrame);
         hostFrameLayout->addWidget( label, 4, 0 );
-        usernameEntry = new QLineEdit( hostFrame );
+        usernameEntry = new KLineEdit(hostFrame);
+        nameEntry->setClearButtonEnabled(true);
         hostFrameLayout->addWidget( usernameEntry, 4, 1 );
         label->setBuddy( usernameEntry );
         connect( usernameEntry, SIGNAL(textEdited(QString)), this, SLOT(editChanged()) );
@@ -156,11 +163,11 @@ HostDialog::HostDialog(QWidget* parent, HostManager* hostmanager, DonkeyProtocol
     {
         QLabel* label = new QLabel(i18n("Password:"), hostFrame);
         hostFrameLayout->addWidget( label, 5, 0 );
-        passwordEntry = new QLineEdit( hostFrame );
+        passwordEntry = new KPasswordLineEdit(hostFrame);
         passwordEntry->setEchoMode( QLineEdit::Password );
         hostFrameLayout->addWidget( passwordEntry, 5, 1 );
         label->setBuddy( passwordEntry );
-        connect( passwordEntry, SIGNAL(textEdited(QString)), this, SLOT(editChanged()) );
+        connect(passwordEntry, &KPasswordLineEdit::passwordChanged, this, &HostDialog::editChanged);
     }
 
     hostFrameLayout->setRowStretch(hostFrameLayout->count(), 1);
@@ -189,7 +196,7 @@ void HostDialog::entrySelected()
     portEntry->setValue(host ? host->port() : 0);
     portEntry->blockSignals(false);
     usernameEntry->setText(host ? host->username() : "");
-    passwordEntry->setText(host ? host->password() : "");
+    passwordEntry->setPassword(host ? host->password() : "");
 }
 
 void HostDialog::currentChanged()
@@ -277,7 +284,7 @@ void HostDialog::editChanged()
     host->setAddress( addressEntry->text() );
     host->setPort( portEntry->value() );
     host->setUsername( usernameEntry->text() );
-    host->setPassword( passwordEntry->text() );
+    host->setPassword( passwordEntry->password() );
 }
 
 void HostDialog::save()

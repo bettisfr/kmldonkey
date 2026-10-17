@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kmldonkey" version="11">
+<kpartgui name="kmldonkey" version="12">
 
 <MenuBar>
   <Menu name="file"><text>&amp;File</text>
@@ -20,6 +20,11 @@
     <Action name="copy_url" />
     <Action name="copy_html" />
     <Action name="copy_hash" />
+  </Menu>
+
+  <Menu name="view"><text>&amp;View</text>
+    <Action name="navigation_sidebar" />
+    <Action name="navigation_tabs" />
   </Menu>
 
   <Menu name="servers"><text>Se&amp;rvers</text>

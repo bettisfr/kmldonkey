@@ -55,12 +55,16 @@ AddServerDialog::AddServerDialog(QWidget* parent)
 
     QGridLayout* boxl = new QGridLayout(mainWidget());
     boxl->setAlignment(Qt::AlignTop);
+    boxl->setHorizontalSpacing(12);
+    boxl->setVerticalSpacing(12);
 
     QLabel* label = new QLabel(i18n("&Address:"), this);
     label->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     boxl->addWidget(label, 0, 0);
 
     m_addressEntry = new KLineEdit(this);
+    m_addressEntry->setPlaceholderText(i18n("Server address or hostname"));
+    m_addressEntry->setClearButtonEnabled(true);
     label->setBuddy(m_addressEntry);
     boxl->addWidget(m_addressEntry, 0, 1, 1, 3);
 

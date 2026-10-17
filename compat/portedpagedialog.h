@@ -35,6 +35,19 @@ public:
         if (flags & PortedDialog::Help)
             buttons |= QDialogButtonBox::Help;
         setStandardButtons(buttons);
+        for (auto type : {QDialogButtonBox::Ok, QDialogButtonBox::Cancel, QDialogButtonBox::Apply,
+                          QDialogButtonBox::Close, QDialogButtonBox::Help}) {
+            if (auto* b = buttonBox()->button(type)) {
+                switch (type) {
+                case QDialogButtonBox::Ok: KGuiItem::assign(b, KStandardGuiItem::ok()); break;
+                case QDialogButtonBox::Cancel: KGuiItem::assign(b, KStandardGuiItem::cancel()); break;
+                case QDialogButtonBox::Apply: KGuiItem::assign(b, KStandardGuiItem::apply()); break;
+                case QDialogButtonBox::Close: KGuiItem::assign(b, KStandardGuiItem::close()); break;
+                case QDialogButtonBox::Help: KGuiItem::assign(b, KStandardGuiItem::help()); break;
+                default: break;
+                }
+            }
+        }
     }
     void enableButton(ButtonCode c, bool e)
     {

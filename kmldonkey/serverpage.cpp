@@ -30,7 +30,6 @@
 #include <kactioncollection.h>
 #include <QApplication>
 #include <QSpinBox>
-#include <QInputDialog>
 #include <kxmlguifactory.h>
 #include <QCheckBox>
 #include <QClipboard>
@@ -54,6 +53,8 @@ ServerPage::ServerPage(QWidget* parent)
     , ClipboardHelper()
 {
     setObjectName("serverPage");
+    setMargin(8);
+    setSpacing(8);
     m_addServerAction = 0;
 
     serverView = new InfoList(this, "serverView", true);

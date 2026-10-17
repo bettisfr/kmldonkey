@@ -40,7 +40,7 @@
 #include <kmessagebox.h>
 #include <QTextBrowser>
 #include <klineedit.h>
-#include <QInputDialog>
+#include "kdeinputdialog.h"
 #include <QTabWidget>
 #include <kxmlguifactory.h>
 
@@ -58,6 +58,8 @@ FriendPage::FriendPage(QWidget* parent)
     , ClipboardHelper()
 {
     setObjectName("friendPage");
+    setMargin(8);
+    setSpacing(8);
 
     friendHSplitter = new QSplitter(this);
 	friendHSplitter->setObjectName("friendHSplitter");
@@ -76,11 +78,13 @@ FriendPage::FriendPage(QWidget* parent)
 
     fileTab = new QTabWidget(friendVSplitter);
     fileTab->setObjectName("fileTab");
+    fileTab->setDocumentMode(true);
     fileTab->setTabsClosable(true);
     fileTab->setMovable(true);
 
     chatTab = new QTabWidget(friendVSplitter);
     chatTab->setObjectName("chatTab");
+    chatTab->setDocumentMode(true);
     chatTab->setTabsClosable(true);
     chatTab->setMovable(true);
 
@@ -376,7 +380,7 @@ void FriendPage::contextFile(QTreeWidgetItem*, const QPoint& pt)
 void FriendPage::actionAddFriend()
 {
     bool ok;
-    QString name = QInputDialog::getText( this, i18n("Search for Friend"),
+    QString name = KdeInputDialog::getText( this, i18n("Search for Friend"),
                                           i18n("Enter the name of the friend you are searching for:"),
                                           QLineEdit::Normal, QString(), &ok );
     if (ok)
@@ -529,7 +533,7 @@ void FriendPage::downloadSelected(bool force, bool ask)
         QStringList names;
         if (ask || !fi->resultName().length()) {
             bool ok;
-            QString filename = QInputDialog::getText( this, i18n("Download As"),
+            QString filename = KdeInputDialog::getText( this, i18n("Download As"),
                                                       i18n("Choose a filename for the new download:"),
                                                       QLineEdit::Normal, fi->resultName(), &ok );
             if (!ok)

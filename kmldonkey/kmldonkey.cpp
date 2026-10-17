@@ -44,6 +44,7 @@
 #include "hostselectaction.h"
 
 #include <QLabel>
+#include <QActionGroup>
 #include <QList>
 #include <QDragEnterEvent>
 #include <QDropEvent>
@@ -86,7 +87,6 @@
 #include <QVBoxLayout>
 #include <KGuiItem>
 #include <QTabWidget>
-#include <QInputDialog>
 #include <kpagewidget.h>
 #include <kpagewidgetmodel.h>
 #include <QIcon>
@@ -229,8 +229,6 @@ void KMLDonkey::addPage(KMLDonkeyPage* page, const QIcon& iconset, const QString
     item->setIcon(iconset);
     QModelIndex index = pageModel->index(item);
     Q_ASSERT(index.isValid());
-    pageModel->setData(index, QVariant(), Qt::DisplayRole);
-    pageModel->setData(index, QVariant(), KPageModel::HeaderRole);
     pages.append(page);
     page->plugGenericActions(this, SLOT(pageActionsChanged(KMLDonkeyPage*)));
 }
@@ -295,23 +293,16 @@ QWidget* KMLDonkey::buildInterface()
     statInfo->setObjectName("connectionStatus");
     statInfo->setTextFormat(Qt::PlainText);
     statServer = new QLabel(this);
-    statServer->setFrameShape(QFrame::Panel);
-    statServer->setFrameShadow(QFrame::Sunken);
     statFiles = new QLabel(this);
-    statFiles->setFrameShape(QFrame::Panel);
-    statFiles->setFrameShadow(QFrame::Sunken);
     statShare = new QLabel(this);
-    statShare->setFrameShape(QFrame::Panel);
-    statShare->setFrameShadow(QFrame::Sunken);
     statTransfer = new QLabel(this);
-    statTransfer->setFrameShape(QFrame::Panel);
-    statTransfer->setFrameShadow(QFrame::Sunken);
     statRate = new QLabel(this);
-    statRate->setFrameShape(QFrame::Panel);
-    statRate->setFrameShadow(QFrame::Sunken);
     statBandwidth = new QLabel(this);
-    statBandwidth->setFrameShape(QFrame::Panel);
-    statBandwidth->setFrameShadow(QFrame::Sunken);
+    for (QLabel* label : {statServer, statFiles, statShare, statTransfer, statRate, statBandwidth}) {
+        label->setContentsMargins(8, 2, 8, 2);
+        label->setTextFormat(Qt::PlainText);
+    }
+    statInfo->setContentsMargins(8, 2, 8, 2);
 
     statServer->setToolTip(i18n("Server connected/total"));
     statFiles->setToolTip(i18n("Files downloading/finished"));
@@ -321,12 +312,12 @@ QWidget* KMLDonkey::buildInterface()
     statBandwidth->setToolTip(i18n("Bandwidth limit down/up"));
 
     statusBar()->addWidget(statInfo,1);
-    statusBar()->addWidget(statServer);
-    statusBar()->addWidget(statFiles);
-    statusBar()->addWidget(statShare);
-    statusBar()->addWidget(statTransfer);
-    statusBar()->addWidget(statRate);
-    statusBar()->addWidget(statBandwidth);
+    statusBar()->addPermanentWidget(statServer);
+    statusBar()->addPermanentWidget(statFiles);
+    statusBar()->addPermanentWidget(statShare);
+    statusBar()->addPermanentWidget(statTransfer);
+    statusBar()->addPermanentWidget(statRate);
+    statusBar()->addPermanentWidget(statBandwidth);
 
     // Interface done, we now need to restore some state that needs to be done before anything else is called.
 
@@ -341,7 +332,7 @@ QWidget* KMLDonkey::buildInterface()
     addPage(statsPage, QIcon::fromTheme("view-statistics"), i18n("Statistics"));
     addPage(consolePage, QIcon::fromTheme("utilities-terminal"), i18n("Console"));
 
-    connect(pageTab, SIGNAL(currentPageChanged(QModelIndex,QModelIndex)), SLOT(currentPageChanged(QModelIndex,QModelIndex)));
+    connect(pageTab, &KPageView::currentPageChanged, this, &KMLDonkey::currentPageChanged);
 
     return pageTab;
 }
@@ -355,6 +346,18 @@ void KMLDonkey::setupActions()
 #endif
 
     //m_toolbarAction = new dynamic_cast<KToggleAction*>( KStandardAction::create(KStandardAction::ShowToolbar, this, SLOT(optionsShowToolbar()), this) );
+    auto* navigationGroup = new QActionGroup(this);
+    auto* sidebarAction = new QAction(QIcon::fromTheme("view-list-details"), i18n("Sidebar Navigation"), this);
+    auto* tabsAction = new QAction(QIcon::fromTheme("tab-new"), i18n("Tabbed Navigation"), this);
+    for (QAction* navigation : {sidebarAction, tabsAction}) {
+        navigation->setCheckable(true);
+        navigationGroup->addAction(navigation);
+    }
+    actionCollection()->addAction("navigation_sidebar", sidebarAction);
+    actionCollection()->addAction("navigation_tabs", tabsAction);
+    connect(sidebarAction, &QAction::triggered, this, [this] { pageTab->setFaceType(KPageView::List); });
+    connect(tabsAction, &QAction::triggered, this, [this] { pageTab->setFaceType(KPageView::Tabbed); });
+
     m_toolbarAction = new KToggleAction(i18n( "&Show Toolbar" ), this);
     actionCollection()->addAction("toolBar", m_toolbarAction);
     connect( m_toolbarAction, SIGNAL( toggled( bool ) ), SLOT( optionsShowToolbar() ) );
@@ -367,7 +370,7 @@ void KMLDonkey::setupActions()
     actionCollection()->addAction("configure_kmldonkey", KStandardAction::preferences(this, SLOT(optionsPreferences()), this));
     actionCollection()->addAction("configure_Notifications", KStandardAction::configureNotifications(this, SLOT(optionsNotifications()), this));
 
-    QAction* action = new QAction(QIcon::fromTheme("kmldonkey"), i18n("Connections..."), this);
+    QAction* action = new QAction(QIcon::fromTheme("network-server"), i18n("Connections..."), this);
     action->setIconText(i18n("Connections"));
     actionCollection()->addAction("configure_connection", action);
     connect(action, SIGNAL(triggered()), this, SLOT(optionsConfigureConnection()));
@@ -554,7 +557,7 @@ void KMLDonkey::restoreState(KSharedConfigPtr conf)
     int currentPage = stategroup.readEntry("CurrentPage", index.isValid() ? index.row() : -1);
 
     KConfigGroup optionsgroup = conf->group("Options");
-    m_toolbarAction->setChecked( optionsgroup.readEntry("ShowToolbar", false) );
+    m_toolbarAction->setChecked( optionsgroup.readEntry("ShowToolbar", true) );
     emit optionsShowToolbar();
     m_statusbarAction->setChecked( optionsgroup.readEntry("ShowStatusbar", true) );
     emit optionsShowStatusbar();
@@ -562,7 +565,14 @@ void KMLDonkey::restoreState(KSharedConfigPtr conf)
     showTrayIcon = optionsgroup.readEntry("ShowTrayIcon", false);
     closeToTrayIcon = optionsgroup.readEntry("CloseToTrayIcon", false);
 
-    pageTab->setFaceType( (KPageView::FaceType)optionsgroup.readEntry("PageViewMode", (int)KPageView::Tabbed) ); //Auto,Plain,List,Tree,Tabbed
+    // Adopt the refreshed navigation once, then preserve the chosen layout.
+    const bool currentInterface = optionsgroup.readEntry("InterfaceVersion", 0) >= 2;
+    const auto navigation = currentInterface
+        ? static_cast<KPageView::FaceType>(optionsgroup.readEntry("PageViewMode", int(KPageView::Tabbed)))
+        : KPageView::Tabbed;
+    pageTab->setFaceType(navigation);
+    actionCollection()->action("navigation_sidebar")->setChecked(navigation != KPageView::Tabbed);
+    actionCollection()->action("navigation_tabs")->setChecked(navigation == KPageView::Tabbed);
 
     hideMainWin = optionsgroup.readEntry("HideMainWin", false);
     displayProgressbar = optionsgroup.readEntry("displayProgressbar", true);
@@ -635,6 +645,7 @@ void KMLDonkey::saveState(KSharedConfigPtr conf)
     optionsgroup.writeEntry("ShowStatusbarLabels", showStatusbarLabels);
     optionsgroup.writeEntry("ShowTrayIcon", showTrayIcon);
     optionsgroup.writeEntry("CloseToTrayIcon", closeToTrayIcon);
+    optionsgroup.writeEntry("InterfaceVersion", 2);
     optionsgroup.writeEntry("PageViewMode", (int)pageTab->faceType());
     optionsgroup.writeEntry("HideMainWin", hideMainWin);
     optionsgroup.writeEntry("displayProgressbar", displayProgressbar);

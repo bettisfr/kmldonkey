@@ -67,7 +67,7 @@ SharePage::SharePage(QWidget* parent)
 
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->setSpacing(0);
-    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setContentsMargins(8, 8, 8, 8);
     setLayout(layout);
 
     uploadSplitter = new QSplitter(this);
