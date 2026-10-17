@@ -137,7 +137,7 @@ problem, and relevant build or terminal output.
 ## Credits and license
 
 **Francesco Betti Sorbelli** — Qt6 / KDE Frameworks 6 port:
-[bettisfr on GitHub](https://github.com/bettisfr).
+[francesco.bettisorbelli@gmail.com](mailto:francesco.bettisorbelli@gmail.com).
 
 This fork builds on the original KMLDonkey authors and KDE contributors.
 Existing copyright and license notices are preserved in the sources;

@@ -41,7 +41,7 @@ int main(int argc, char** argv)
         KAboutLicense::GPL_V2, i18n("Copyright © 2003–2018 The KMLDonkey Authors"));
     about.setHomepage(QStringLiteral("https://github.com/bettisfr/kmldonkey"));
     about.addAuthor("Francesco Betti Sorbelli", i18n("Qt6 / KDE Frameworks 6 port"),
-        QString(), QStringLiteral("https://github.com/bettisfr"));
+        QStringLiteral("francesco.bettisorbelli@gmail.com"));
     about.addAuthor("Sebastian Sauer", i18n("Maintainer & Developer"), "mail@dipe.org");
     about.addAuthor("Gioacchino Mazzurco", i18n("Developer"), "gmazzurco89@gmail.com");
     about.addAuthor("Christian Muehlhaeuser", i18n("Developer"), "chris@chris.de");
