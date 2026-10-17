@@ -1,3 +1,5 @@
+<img src="kmldonkey/images/icons/hi128-app-kmldonkey.png" alt="KMLDonkey icon" width="96" height="96">
+
 # KMLDonkey — Qt6 / KDE Frameworks 6 port
 
 A community port of the classic **KMLDonkey** frontend to **Qt6 and KDE
