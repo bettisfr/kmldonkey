@@ -26,6 +26,8 @@
 
 #include <QLabel>
 #include <QSplitter>
+#include <QShowEvent>
+#include <QTimer>
 #include <QCheckBox>
 #include <QLayout>
 #include <QClipboard>
@@ -201,7 +203,9 @@ QString SearchPage::getTabLabel(SearchResult *tab)
 void SearchPage::saveState(KSharedConfigPtr conf)
 {
     KConfigGroup group = conf->group( "SearchPage" );
-    group.writeEntry("Splitter", splitter->sizes());
+    const QList<int> sizes = splitter->sizes();
+    group.writeEntry("Splitter", sizes);
+    group.writeEntry("SidebarWidth", sidebarRestorePending ? restoredSidebarWidth : sizes.value(0, 340));
     group.writeEntry("activateNewTabs", activateNewTabs);
     group.writeEntry("closeTabsOnDisconnect", closeTabsOnDisconnect);
     group.writeEntry("showNumbersOnTabs", showNumbersOnTabs);
@@ -214,10 +218,10 @@ void SearchPage::restoreState(KSharedConfigPtr conf)
     KConfigGroup group = conf->group( "SearchPage" );
 
     QList<int> searchsplitter = group.readEntry( "Splitter", QList<int>() );
-    if( searchsplitter.count() > 0 )
-        splitter->setSizes(searchsplitter);
-    else
-        splitter->setSizes({340, 900});
+    restoredSidebarWidth = group.readEntry("SidebarWidth", searchsplitter.value(0, 340));
+    if (restoredSidebarWidth <= 0)
+        restoredSidebarWidth = 340;
+    sidebarRestorePending = true;
 
     activateNewTabs = group.readEntry("activateNewTabs", true);
     closeTabsOnDisconnect = group.readEntry("closeTabsOnDisconnect", true);
@@ -231,6 +235,23 @@ void SearchPage::restoreState(KSharedConfigPtr conf)
     ed2kBox->updateGeometry();
 
     searchcore->restoreState(conf);
+}
+
+void SearchPage::showEvent(QShowEvent *event)
+{
+    VBoxWidget::showEvent(event);
+    if (!sidebarRestorePending)
+        return;
+
+    // Wait until the page has its actual window geometry. Restoring while it
+    // is hidden scales the saved sizes against the small construction size.
+    QTimer::singleShot(0, this, [this]() {
+        if (!sidebarRestorePending || !isVisible())
+            return;
+        const int available = splitter->width() - splitter->handleWidth();
+        splitter->setSizes({restoredSidebarWidth, qMax(1, available - restoredSidebarWidth)});
+        sidebarRestorePending = false;
+    });
 }
 
 void SearchPage::clear()

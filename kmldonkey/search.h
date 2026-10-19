@@ -73,6 +73,8 @@ public:
 private:
     QTabWidget *resultTabs;
     QSplitter *splitter;
+    int restoredSidebarWidth = 340;
+    bool sidebarRestorePending = true;
 
     SearchCore *searchcore;
 
@@ -92,6 +94,7 @@ signals:
     void genericActionsChanged(KMLDonkeyPage*);
 
 protected:
+    void showEvent(QShowEvent *event) override;
     void copySearchToClipboard(ClipFormat format);
 
 protected slots:
