@@ -45,6 +45,7 @@ add_library(kmldonkey_ui STATIC ${kmldonkeyapp_KDEINIT_SRCS} searchtabiface.h pr
 target_include_directories(kmldonkey_ui PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/tools ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_BINARY_DIR}/kmldonkey_ui_autogen/include)
 target_link_libraries(kmldonkey_ui PUBLIC libkmldonkey Qt6::Gui KF6::XmlGui KF6::DBusAddons KF6::Codecs KF6::Completion KF6::KIOWidgets KF6::Notifications KF6::IconThemes)
 add_executable(kmldonkey main.cpp)
+target_compile_definitions(kmldonkey PRIVATE KMLDONKEY_VERSION="${PROJECT_VERSION}")
 target_link_libraries(kmldonkey PRIVATE kmldonkey_ui)
 install(TARGETS kmldonkey DESTINATION ${KDE_INSTALL_BINDIR})
 install(FILES kmldonkey.desktop DESTINATION ${KDE_INSTALL_APPDIR})

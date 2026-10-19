@@ -367,7 +367,7 @@ int main(int argc, char** argv)
     qputenv("XDG_CACHE_HOME", (settings.path() + "/cache").toUtf8());
     QApplication app(argc, argv);
     KLocalizedString::setApplicationDomain("kmldonkey");
-    KAboutData::setApplicationData(KAboutData("kmldonkey", "KMLDonkey", "2.1.5"));
+    KAboutData::setApplicationData(KAboutData("kmldonkey", "KMLDonkey", "2.2.0"));
     PortingTest test;
     return QTest::qExec(&test, argc, argv);
 }

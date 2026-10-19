@@ -17,6 +17,8 @@ active Qt style, icon theme and color palette, including dark themes.
 Navigation tabs are selected on the first start of the refreshed version;
 the View menu also offers a sidebar and subsequent starts remember the choice.
 
+Current version: **2.2.0**, for both the application and the Debian package.
+
 ## What changed in this fork
 
 - Refreshed the desktop interface with top navigation tabs, theme icons, spaced
@@ -39,8 +41,9 @@ the View menu also offers a sidebar and subsequent starts remember the choice.
 - Added automated protocol and interface checks and a script that creates a `.deb` with runtime dependencies.
 
 The source baseline is the official KDE SVN tree at revision **1531665**,
-last changed on **29 December 2018**. The application declares version **2.1.5**;
-this fork's Qt6 package is version **2.1.5+qt6.12**.
+last changed on **29 December 2018**, which declares version **2.1.5**.
+This independent Qt6 / KDE Frameworks 6 port is version **2.2.0**,
+used by both the application and the Debian package.
 
 ## Download folders
 
@@ -54,7 +57,7 @@ enter a path on the server.
 The core checks that each folder exists and can be written by its account
 before applying the paths. This requires the companion
 [MLDonkey OCaml 5 port](https://github.com/bettisfr/mldonkey/tree/ocaml5) package
-**3.2.1+ocaml5.5** or newer. Existing shared folders and their strategies are
+**3.2.1+ocaml5.5** or newer; the current companion release is **3.3.0**. Existing shared folders and their strategies are
 preserved, including their priorities and network restrictions. Existing files
 are not moved; leave the temporary folder unchanged while downloads are running.
 For a local core running as a system service, the destination must also be
@@ -102,7 +105,7 @@ Install the dependencies listed in [BUILDING.md](BUILDING.md), then run:
 
 ```sh
 ./scripts/build-deb.sh
-sudo apt install ./build-qt6/kmldonkey_2.1.5+qt6.12_amd64.deb
+sudo apt install ./build-qt6/kmldonkey_2.2.0_amd64.deb
 ```
 
 The filename above is for amd64; use the generated filename on other architectures.

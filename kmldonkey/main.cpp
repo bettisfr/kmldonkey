@@ -37,7 +37,7 @@ int main(int argc, char** argv)
     QApplication app(argc, argv);
     KStyleManager::initStyle();
     KLocalizedString::setApplicationDomain("kmldonkey");
-    KAboutData about("kmldonkey", i18n("KMLDonkey"), "2.1.5", i18n("An MLDonkey frontend for the KDE desktop."),
+    KAboutData about("kmldonkey", i18n("KMLDonkey"), KMLDONKEY_VERSION, i18n("An MLDonkey frontend for the KDE desktop."),
         KAboutLicense::GPL_V2, i18n("Copyright © 2003–2018 The KMLDonkey Authors"));
     about.setHomepage(QStringLiteral("https://github.com/bettisfr/kmldonkey"));
     about.addAuthor("Francesco Betti Sorbelli", i18n("Qt6 / KDE Frameworks 6 port"),
